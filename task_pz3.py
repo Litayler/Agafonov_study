@@ -13,6 +13,10 @@ char_names = ["Скорость", "Запас хода", "Мощность", "Б
 
 char_data = [[electric_scooters[m][c] for c in char_names] for m in models]
 
+<<<<<<< HEAD
+=======
+# ФУНКЦИИ ===
+>>>>>>> f53753f (ПЗ 3: сравнение электросамокатов по методике Ks)
 
 def get_normal(data):
     """Нормализация относительно первого образца (базового)"""
@@ -48,7 +52,11 @@ def create_radial(models, names, normal_data):
     angles += angles[:1]
 
     max_val = max(max(row) for row in normal_data)
+<<<<<<< HEAD
     radius_limit = max_val * 1.2  
+=======
+    radius_limit = max_val * 1.2  # запас для визуального комфорта
+>>>>>>> f53753f (ПЗ 3: сравнение электросамокатов по методике Ks)
 
     fig, ax = plt.subplots(figsize=(10, 10), subplot_kw=dict(projection="polar"))
 
@@ -73,7 +81,11 @@ def create_radial(models, names, normal_data):
     plt.tight_layout()
     plt.show()
 
+<<<<<<< HEAD
 #
+=======
+#РАСЧЁТЫ ===
+>>>>>>> f53753f (ПЗ 3: сравнение электросамокатов по методике Ks)
 normalized = get_normal(char_data)
 ks_values = get_quality(normalized)
 
@@ -87,6 +99,10 @@ best_model = models[np.argmax(ks_values)]
 print(f"\n✅ ЛУЧШИЙ САМОКАТ: {best_model} (Ks = {max(ks_values):.3f})")
 print("="*50)
 
+<<<<<<< HEAD
 #  ВИЗУАЛИЗАЦИЯ 
+=======
+# ВИЗУАЛИЗАЦИЯ ===
+>>>>>>> f53753f (ПЗ 3: сравнение электросамокатов по методике Ks)
 create_bar(models, ks_values)
 create_radial(models, char_names, normalized)
