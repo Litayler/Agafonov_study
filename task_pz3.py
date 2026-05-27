@@ -1,7 +1,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-# Данные из var_1.py (параметр "Вес" исключён, т.к. для него "меньше = лучше")
 electric_scooters = {
     "Ninebot Max G30": {"Скорость": 30, "Запас хода": 65, "Мощность": 350, "Батарея": 15, "Нагрузка": 100},
     "Kugoo Kirin M5":  {"Скорость": 55, "Запас хода": 60, "Мощность": 1000, "Батарея": 21, "Нагрузка": 150},
@@ -9,14 +8,11 @@ electric_scooters = {
     "Halten RS-02":    {"Скорость": 40, "Запас хода": 50, "Мощность": 800, "Батарея": 18, "Нагрузка": 130}
 }
 
-# Порядок важен: первый элемент станет базовым образцом
 models = list(electric_scooters.keys())
 char_names = ["Скорость", "Запас хода", "Мощность", "Батарея", "Нагрузка"]
 
-# Преобразуем словарь в список списков
 char_data = [[electric_scooters[m][c] for c in char_names] for m in models]
 
-# === ФУНКЦИИ ===
 
 def get_normal(data):
     """Нормализация относительно первого образца (базового)"""
@@ -47,18 +43,15 @@ def create_bar(names, values):
 
 def create_radial(models, names, normal_data):
     """Лепестковая диаграмма для ВСЕХ моделей с адаптивным радиусом"""
-    # Замыкаем контуры
     closed_data = [row + [row[0]] for row in normal_data]
     angles = np.linspace(0, 2 * np.pi, len(names), endpoint=False).tolist()
     angles += angles[:1]
 
-    # 🔥 Вычисляем максимальное значение во всех данных + запас 20%
     max_val = max(max(row) for row in normal_data)
     radius_limit = max_val * 1.2  # запас для визуального комфорта
 
     fig, ax = plt.subplots(figsize=(10, 10), subplot_kw=dict(projection="polar"))
 
-    # Цвета для разных моделей
     colors = ['blue', 'gold', 'green', 'red']
     
     for i in range(len(closed_data)):
@@ -69,10 +62,8 @@ def create_radial(models, names, normal_data):
     ax.set_xticks(angles[:-1])
     ax.set_xticklabels(names, fontsize=10)
     
-    # 🔥 Устанавливаем динамический радиус с округлением до удобного шага
     ax.set_ylim(0, radius_limit)
     
-    # 🔥 Добавляем сетку с понятными делениями
     ax.set_yticks(np.linspace(0, radius_limit, 5))
     ax.set_yticklabels([f'{v:.1f}' for v in np.linspace(0, radius_limit, 5)], 
                        fontsize=8, color='gray')
@@ -82,7 +73,6 @@ def create_radial(models, names, normal_data):
     plt.tight_layout()
     plt.show()
 
-# === РАСЧЁТЫ ===
 normalized = get_normal(char_data)
 ks_values = get_quality(normalized)
 
@@ -96,6 +86,6 @@ best_model = models[np.argmax(ks_values)]
 print(f"\n✅ ЛУЧШИЙ САМОКАТ: {best_model} (Ks = {max(ks_values):.3f})")
 print("="*50)
 
-# === ВИЗУАЛИЗАЦИЯ ===
+# ВИЗУАЛИЗАЦИЯ
 create_bar(models, ks_values)
 create_radial(models, char_names, normalized)
